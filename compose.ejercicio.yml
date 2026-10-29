@@ -11,12 +11,44 @@ services:
     environment:
       - CATALOGO_URL=http://____:4001     # TODO: nombre del servicio del catálogo
       - BIBLIOTECA_URL=http://____:4002   # TODO: nombre del servicio de la biblioteca
+      - OFERTAS_URL=http://ofertas:____   # TODO: puerto interno de ofertas (mirá su Dockerfile)
+      - CARRITO_URL=http://carrito:____   # TODO: puerto interno del carrito
+      - PAGOS_URL=http://____:4005        # TODO: nombre del servicio de pagos
+      - DESEOS_URL=http://____:____       # TODO: nombre y puerto de la lista de deseos
+      - RESENAS_URL=http://____:____      # TODO: nombre y puerto de reseñas
     depends_on:
-      - ____                              # TODO: ¿de qué servicio depende?
-      - ____                              # TODO
+      catalogo:
+        condition: ____                   # TODO: esperar a que pase su HEALTHCHECK
+      biblioteca:
+        condition: service_healthy
+      ofertas:
+        condition: service_healthy
+      carrito:
+        condition: service_healthy
+      ____:                               # TODO: falta un servicio (¿quién cobra?)
+        condition: service_healthy
+      deseos:
+        condition: service_healthy
+      resenas:
+        condition: service_healthy
 
   catalogo:
     build: ____                           # TODO: carpeta del Dockerfile del catálogo
 
   biblioteca:
     build: ____                           # TODO: carpeta del Dockerfile de la biblioteca
+
+  ofertas:
+    build: ./ofertas
+
+  carrito:
+    build: ____                           # TODO
+
+  pagos:
+    build: ./pagos
+
+  ____:                                   # TODO: nombre del servicio (tiene que coincidir con DESEOS_URL)
+    build: ./deseos
+
+  resenas:
+    build: ____                           # TODO

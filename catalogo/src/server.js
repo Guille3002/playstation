@@ -16,6 +16,9 @@ const JUEGOS = [
   { id: 6, titulo: 'Ghost of Tsushima',        precio: 49.99, genero: 'Acción/Aventura' },
 ]
 
+// Lo usa el HEALTHCHECK del Dockerfile y el panel de estado del gateway.
+app.get('/salud', (req, res) => res.json({ servicio: 'catalogo', ok: true }))
+
 app.get('/juegos', (req, res) => {
   res.json(JUEGOS)
 })

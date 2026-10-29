@@ -10,6 +10,9 @@ const PORT = process.env.PORT || 4002
 // "Base de datos" en memoria.
 const MIOS = []
 
+// Lo usa el HEALTHCHECK del Dockerfile y el panel de estado del gateway.
+app.get('/salud', (req, res) => res.json({ servicio: 'biblioteca', ok: true }))
+
 app.get('/mios', (req, res) => {
   res.json(MIOS)
 })

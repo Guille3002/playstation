@@ -1,0 +1,12 @@
+{
+  "name": "ps-deseos",
+  "version": "1.0.0",
+  "description": "Microservicio Deseos · PlayStation Store · Clase 22 Programación Web URL",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

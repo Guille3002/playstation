@@ -14,113 +14,264 @@
     --ink:#ffffff; --muted:#a8a8a8; --soft:#787878;
     --ps:#0070d1; --ps-hover:#1a85e0; --ps-press:#005ba8; --ps-deep:#003d75; --ps-tint:rgba(0,112,209,.16);
     --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.20);
-    --ok:#00b890; --warn:#ffa61a;
+    --ok:#00b890; --warn:#ffa61a; --bad:#e5484d; --star:#ffc94d; --heart:#ff5c8a;
     --r:4px; --r6:6px; --r8:8px;
     --font:'Inter','Helvetica Neue',Arial,system-ui,sans-serif;
-    --mono:'JetBrains Mono',monospace;
+    --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;}
+  html{scroll-behavior:smooth;}
   body{background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;}
   a{color:inherit;text-decoration:none;}
+  button{font-family:var(--font);}
+  .mono{font-family:var(--mono);}
 
   /* ---- NAV ---- */
   .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:26px;
     padding:14px 40px;background:rgba(0,0,0,.72);backdrop-filter:blur(14px);
     border-bottom:1px solid var(--line);}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:17px;letter-spacing:.3px;}
-  .shapes{display:flex;gap:5px;align-items:center;}
-  .shapes span{font-size:13px;line-height:1;color:var(--ps);filter:drop-shadow(0 0 6px rgba(0,112,209,.5));}
-  .shapes .x{color:#b7c6dd;} .shapes .sq{color:#b7c6dd;}
+  .shapes{display:block;flex:none;filter:drop-shadow(0 0 6px rgba(0,112,209,.45));}
   .nav .links{display:flex;gap:22px;font-size:14px;font-weight:600;color:var(--muted);}
+  .nav .links a{cursor:pointer;}
   .nav .links a:hover{color:var(--ink);}
   .nav .links a.on{color:var(--ink);}
-  .nav .right{margin-left:auto;display:flex;align-items:center;gap:16px;}
-  .chip{font-family:var(--mono);font-size:12px;color:var(--soft);border:1px solid var(--line);border-radius:999px;padding:5px 12px;}
-  .icon-btn{width:38px;height:38px;border-radius:999px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:17px;border:1px solid var(--line);}
+  .nav .right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+  .chip{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 12px;
+    background:transparent;display:flex;align-items:center;gap:8px;cursor:pointer;transition:border-color .18s,color .18s;}
+  .chip:hover{border-color:var(--line2);color:var(--ink);}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);flex:none;}
+  .dot.warn{background:var(--warn);box-shadow:0 0 8px var(--warn);}
+  .dot.off{background:var(--bad);box-shadow:0 0 8px var(--bad);}
+  .icon-btn{position:relative;width:38px;height:38px;border-radius:999px;background:var(--surface2);display:flex;align-items:center;justify-content:center;
+    font-size:17px;border:1px solid var(--line);color:var(--ink);cursor:pointer;transition:border-color .18s;}
+  .icon-btn:hover{border-color:var(--line2);}
+  .icon-btn.static{cursor:default;}
+  .badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;border-radius:10px;background:var(--ps);color:#fff;
+    font-size:11px;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--bg);}
+  .badge.pop{animation:pop .35s;}
+  @keyframes pop{50%{transform:scale(1.35);}}
 
   .shell{max-width:1240px;margin:0 auto;padding:0 40px 90px;}
 
+  /* ---- Precios ---- */
+  .precio{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:16px;white-space:nowrap;}
+  .precio s{color:var(--soft);font-weight:500;font-size:.82em;}
+  .precio.grande{font-size:24px;} .precio.chico{font-size:14px;}
+  .dto{background:var(--ps);color:#fff;font-size:11.5px;font-weight:800;padding:3px 7px;border-radius:var(--r);letter-spacing:.02em;}
+  .rate{font-size:12.5px;color:#d6dee8;white-space:nowrap;}
+  .rate .st,.resena .st{color:var(--star);}
+  .rate .n{color:var(--soft);}
+
   /* ---- HERO destacado ---- */
   .hero{position:relative;margin:30px 0 10px;border-radius:var(--r8);overflow:hidden;border:1px solid var(--line);
-    min-height:360px;display:flex;align-items:flex-end;}
+    min-height:380px;display:flex;align-items:flex-end;}
   .hero .art{position:absolute;inset:0;}
+  .hero .art .marks{position:absolute;right:40px;top:34px;font-size:64px;letter-spacing:22px;opacity:.10;}
   .hero .scrim{position:absolute;inset:0;background:
     linear-gradient(90deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.55) 42%,rgba(0,0,0,.05) 100%),
     linear-gradient(0deg,rgba(0,0,0,.75),transparent 60%);}
-  .hero .content{position:relative;padding:40px 44px;max-width:620px;}
+  .hero .content{position:relative;padding:40px 44px;max-width:680px;}
   .hero .kicker{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ps);margin-bottom:12px;}
   .hero h1{margin:0 0 10px;font-size:52px;font-weight:900;line-height:1.02;letter-spacing:-.02em;}
   .hero .meta{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0 18px;}
-  .hero .row{display:flex;align-items:center;gap:16px;}
-  .price{font-size:22px;font-weight:800;}
+  .hero .row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
   .pill{background:var(--surface2);border-radius:999px;font-size:12.5px;font-weight:700;letter-spacing:.03em;
     padding:5px 13px;color:#d6dee8;border:1px solid var(--line);}
+  .pill.oferta{background:var(--ps-tint);border-color:rgba(0,112,209,.5);color:#9fd0ff;}
 
   .btn{font-family:var(--font);font-size:14px;font-weight:700;letter-spacing:.04em;color:#fff;background:var(--ps);
-    border:0;border-radius:var(--r);padding:13px 30px;cursor:pointer;transition:background .18s,transform .18s;}
+    border:0;border-radius:var(--r);padding:13px 26px;cursor:pointer;transition:background .18s,transform .18s,opacity .18s;}
   .btn:hover{background:var(--ps-hover);}
   .btn:active{background:var(--ps-press);transform:translateY(1px);}
   .btn.ghost{background:transparent;border:1px solid var(--line2);}
   .btn.ghost:hover{background:rgba(255,255,255,.06);}
+  .btn.ghost.on{color:var(--heart);border-color:rgba(255,92,138,.5);}
   .btn.owned{background:var(--surface2);color:var(--ok);cursor:default;border:1px solid var(--line);}
   .btn.owned:hover{background:var(--surface2);}
+  .btn.encarrito{background:transparent;border:1px solid var(--ps);color:#8cc4ff;}
+  .btn.encarrito:hover{background:var(--ps-tint);}
+  .btn.full{width:100%;}
+  .btn:disabled:not(.owned),.buy:disabled:not(.owned){opacity:.55;cursor:wait;}
 
   /* ---- Secciones ---- */
-  .sec-head{display:flex;align-items:baseline;gap:14px;margin:40px 0 18px;}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin:44px 0 18px;flex-wrap:wrap;scroll-margin-top:84px;}
   .sec-head h2{font-size:24px;font-weight:800;margin:0;letter-spacing:-.01em;}
   .sec-head .count{font-family:var(--mono);font-size:13px;color:var(--soft);}
+  .sec-head .nota{font-family:var(--mono);font-size:12px;color:var(--warn);}
+  .tabs{margin-left:auto;display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;align-self:center;}
+  .tabs button{background:transparent;border:0;color:var(--muted);font-size:13px;font-weight:600;padding:7px 15px;border-radius:999px;cursor:pointer;}
+  .tabs button:hover{color:var(--ink);}
+  .tabs button.on{background:var(--ink);color:#000;}
 
   /* ---- Grid de tiles ---- */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;}
   .tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r6);overflow:hidden;
     display:flex;flex-direction:column;transition:border-color .18s,transform .18s,box-shadow .18s;}
   .tile:hover{border-color:var(--ps);box-shadow:0 0 0 1px var(--ps),0 14px 34px rgba(0,0,0,.5);transform:translateY(-3px);}
-  .tile .art{position:relative;aspect-ratio:3/4;overflow:hidden;}
+  .tile .art{position:relative;aspect-ratio:3/4;overflow:hidden;cursor:pointer;}
   .tile .art .logo{position:absolute;left:14px;right:14px;bottom:13px;font-weight:900;font-size:21px;line-height:1.02;
     letter-spacing:-.02em;text-shadow:0 2px 14px rgba(0,0,0,.6);}
   .tile .art .artscrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.6),transparent 55%);}
-  .tile .art .marks{position:absolute;top:12px;right:13px;font-size:14px;opacity:.5;letter-spacing:3px;}
+  .tile .art .marks{position:absolute;top:50%;left:0;right:0;text-align:center;font-size:30px;opacity:.08;letter-spacing:8px;transform:translateY(-60%);}
+  .tile .art .sale{position:absolute;top:12px;left:12px;}
+  .heart{position:absolute;top:10px;right:10px;z-index:2;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.55);
+    border:1px solid var(--line2);color:#fff;cursor:pointer;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(6px);transition:transform .15s,color .15s;}
+  .heart:hover{transform:scale(1.1);}
+  .heart.on{color:var(--heart);border-color:rgba(255,92,138,.6);}
   .tile .body{padding:13px 15px 16px;display:flex;flex-direction:column;gap:7px;flex:1;}
-  .tile .ttl{font-size:15px;font-weight:700;line-height:1.2;}
-  .tile .gen{font-size:12.5px;color:var(--muted);}
-  .tile .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:6px;}
-  .tile .foot .price{font-size:16px;}
-  .tile .buy{font-family:var(--font);font-size:12.5px;font-weight:700;letter-spacing:.03em;color:#fff;background:var(--ps);
-    border:0;border-radius:var(--r);padding:9px 15px;cursor:pointer;transition:background .18s;white-space:nowrap;}
-  .tile .buy:hover{background:var(--ps-hover);}
-  .tile .buy.owned{background:transparent;color:var(--ok);border:1px solid var(--line);cursor:default;}
+  .tile .ttl{font-size:15px;font-weight:700;line-height:1.2;cursor:pointer;}
+  .tile .ttl:hover{color:#8cc4ff;}
+  .tile .sub{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .tile .gen{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tile .foot{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding-top:6px;}
+  .buy{font-family:var(--font);font-size:12.5px;font-weight:700;letter-spacing:.03em;color:#fff;background:var(--ps);
+    border:0;border-radius:var(--r);padding:10px 14px;cursor:pointer;transition:background .18s;white-space:nowrap;width:100%;}
+  .buy:hover{background:var(--ps-hover);}
+  .buy.owned{background:transparent;color:var(--ok);border:1px solid var(--line);cursor:default;}
+  .buy.encarrito{background:transparent;color:#8cc4ff;border:1px solid var(--ps);}
+  .buy.encarrito:hover{background:var(--ps-tint);}
 
-  /* ---- Biblioteca ---- */
-  .lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+  /* ---- Listas (biblioteca / deseos) ---- */
+  .lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:14px;}
   .libitem{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r6);padding:11px 13px;}
-  .libitem .mini{width:46px;height:60px;border-radius:var(--r);flex:none;overflow:hidden;position:relative;}
-  .libitem .mt{font-size:14px;font-weight:700;line-height:1.15;}
-  .libitem .mg{font-size:12px;color:var(--muted);margin-top:3px;}
+  .mini{width:46px;height:60px;border-radius:var(--r);flex:none;overflow:hidden;position:relative;}
+  .libitem .info{min-width:0;}
+  .mt{font-size:14px;font-weight:700;line-height:1.15;}
+  .mg{font-size:12px;color:var(--muted);margin-top:3px;}
   .libitem .owned-tag{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ok);letter-spacing:.04em;}
-  .empty{color:var(--soft);font-size:15px;border:1px dashed var(--line2);border-radius:var(--r8);padding:26px;text-align:center;}
+  .libitem .acciones{margin-left:auto;display:flex;align-items:center;gap:6px;flex:none;}
+  .mini-btn{font-size:12px;font-weight:700;color:#fff;background:var(--ps);border:0;border-radius:var(--r);padding:7px 11px;cursor:pointer;}
+  .mini-btn:hover{background:var(--ps-hover);}
+  .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--soft);}
+  .tag.ok{color:var(--ok);}
+  .cerrar{background:transparent;border:0;color:var(--muted);font-size:17px;cursor:pointer;width:32px;height:32px;border-radius:50%;flex:none;}
+  .cerrar:hover{background:rgba(255,255,255,.08);color:var(--ink);}
+  .empty{color:var(--soft);font-size:15px;border:1px dashed var(--line2);border-radius:var(--r8);padding:26px;text-align:center;grid-column:1/-1;line-height:1.5;}
+  .aviso{grid-column:1/-1;border:1px dashed rgba(229,72,77,.55);color:#ffb3b5;background:rgba(229,72,77,.06);border-radius:var(--r8);
+    padding:22px;text-align:center;font-size:14px;line-height:1.6;}
+  .aviso .mono{display:block;font-size:12px;color:var(--soft);margin-top:4px;}
 
   .skel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r6);aspect-ratio:3/4;position:relative;overflow:hidden;}
   .skel::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);animation:sh 1.2s infinite;}
-  @keyframes sh{100%{transform:translateX(100%);}}
+  @keyframes sh{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+
+  /* ---- Velo, drawer del carrito y modal ---- */
+  .velo{position:fixed;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);z-index:80;opacity:0;pointer-events:none;transition:opacity .25s;}
+  .velo.on{opacity:1;pointer-events:auto;}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,100vw);background:var(--elev);border-left:1px solid var(--line2);z-index:85;
+    display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.2,.8,.2,1);box-shadow:-20px 0 60px rgba(0,0,0,.5);}
+  .drawer.on{transform:none;}
+  .drawer header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line);}
+  .drawer h3{margin:0;font-size:18px;font-weight:800;}
+  .drawer .items{flex:1;overflow:auto;padding:16px 22px;display:flex;flex-direction:column;gap:12px;}
+  .citem{display:flex;align-items:center;gap:13px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+  .citem .info{flex:1;min-width:0;}
+  .citem .der{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+  .link{background:transparent;border:0;color:var(--soft);font-size:12px;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;}
+  .link:hover{color:var(--bad);}
+  .drawer .resumen{border-top:1px solid var(--line);padding:18px 22px 22px;display:flex;flex-direction:column;gap:9px;}
+  .fila{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);}
+  .fila.ahorro{color:var(--ok);}
+  .fila.total{color:var(--ink);font-size:19px;font-weight:800;margin:4px 0 6px;}
+  .flujo{font-family:var(--mono);font-size:11px;color:var(--soft);text-align:center;margin-top:4px;}
+  .vacio-car{margin:auto;text-align:center;color:var(--soft);display:flex;flex-direction:column;gap:6px;align-items:center;padding:40px 0;}
+  .vacio-car .ico{font-size:40px;opacity:.6;margin-bottom:6px;}
+  .vacio-car b{color:var(--ink);font-size:16px;}
+  .ok-compra{margin:auto 0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px 0;}
+  .ok-compra .check{width:64px;height:64px;border-radius:50%;background:rgba(0,184,144,.14);border:1px solid rgba(0,184,144,.5);color:var(--ok);
+    font-size:30px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;animation:pop .5s;}
+  .ok-compra h4{margin:0;font-size:21px;font-weight:800;}
+  .ok-compra .orden{font-family:var(--mono);font-size:13px;color:#8cc4ff;}
+  .pasos{list-style:none;margin:16px 0 20px;padding:0;text-align:left;width:100%;display:flex;flex-direction:column;gap:8px;}
+  .pasos li{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r6);padding:10px 12px;font-size:13px;color:var(--muted);}
+  .pasos li b{font-family:var(--mono);color:var(--ink);font-weight:700;}
+  .pasos li .n{width:22px;height:22px;border-radius:50%;background:var(--ps-tint);color:#8cc4ff;font-family:var(--mono);font-size:11px;
+    display:flex;align-items:center;justify-content:center;flex:none;}
+
+  .modal{position:fixed;inset:0;z-index:88;display:flex;align-items:flex-start;justify-content:center;padding:56px 16px;overflow:auto;
+    opacity:0;pointer-events:none;transition:opacity .2s;}
+  .modal.on{opacity:1;pointer-events:auto;}
+  .caja{position:relative;width:100%;max-width:760px;background:var(--elev);border:1px solid var(--line2);border-radius:var(--r8);overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);transform:translateY(12px);transition:transform .25s;}
+  .modal.on .caja{transform:none;}
+  .caja > .cerrar{position:absolute;top:12px;right:12px;z-index:3;background:rgba(0,0,0,.5);}
+  .portada{position:relative;height:230px;display:flex;align-items:flex-end;}
+  .portada .scrim{position:absolute;inset:0;background:linear-gradient(0deg,var(--elev) 2%,rgba(0,0,0,.25) 70%);}
+  .portada h2{position:relative;margin:0;padding:0 28px 14px;font-size:38px;font-weight:900;letter-spacing:-.02em;line-height:1.02;}
+  .det{padding:4px 28px 26px;}
+  .det .meta{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:18px;}
+  .det .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .resenas{border-top:1px solid var(--line);padding:22px 28px 28px;}
+  .resenas h3{margin:0 0 4px;font-size:18px;font-weight:800;display:flex;align-items:baseline;gap:10px;}
+  .resenas h3 .count{font-family:var(--mono);font-size:12px;color:var(--soft);font-weight:500;}
+  .resena{border-bottom:1px solid var(--line);padding:14px 0;}
+  .resena .quien{display:flex;justify-content:space-between;gap:10px;font-size:14px;font-weight:700;}
+  .resena .estrellas{letter-spacing:1px;font-size:13px;}
+  .st-off{color:#4a4a4a;}
+  .resena p{margin:6px 0 0;color:#cfd6df;font-size:14px;line-height:1.5;}
+  .form{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r8);padding:18px;display:flex;flex-direction:column;gap:12px;}
+  .form .titulo{font-weight:800;font-size:15px;}
+  .form .fila2{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .campo{width:100%;background:var(--surface2);border:1px solid var(--line);border-radius:var(--r);color:var(--ink);font:14px var(--font);padding:11px 12px;}
+  .campo:focus{outline:none;border-color:var(--ps);box-shadow:0 0 0 3px var(--ps-tint);}
+  .campo.corto{flex:1;min-width:160px;width:auto;}
+  textarea.campo{resize:vertical;min-height:84px;}
+  .pick{display:flex;}
+  .pick button{background:transparent;border:0;font-size:25px;color:#4a4a4a;cursor:pointer;padding:0 2px;line-height:1;transition:color .12s,transform .12s;}
+  .pick button.on{color:var(--star);}
+  .pick button:hover{transform:scale(1.15);}
+
+  /* ---- Panel de estado de servicios ---- */
+  .panel-estado{position:fixed;top:72px;right:40px;width:min(380px,calc(100vw - 32px));z-index:60;background:var(--elev);border:1px solid var(--line2);
+    border-radius:var(--r8);box-shadow:0 24px 60px rgba(0,0,0,.6);padding:16px 18px;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .18s,transform .18s;}
+  .panel-estado.on{opacity:1;transform:none;pointer-events:auto;}
+  .panel-estado h4{margin:0 0 2px;font-size:15px;font-weight:800;}
+  .panel-estado .sub{font-size:12px;color:var(--soft);margin-bottom:10px;}
+  .svc{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);}
+  .svc:last-of-type{border-bottom:0;}
+  .svc .nom{font-size:13.5px;font-weight:700;}
+  .svc .url{font-family:var(--mono);font-size:11px;color:var(--soft);}
+  .svc .ms{font-family:var(--mono);font-size:12px;color:var(--muted);}
+  .svc .ms.off{color:var(--bad);}
+  .tip{margin-top:10px;font-size:12px;color:var(--soft);background:var(--surface);border-radius:var(--r6);padding:10px 12px;line-height:1.5;}
+  .tip code{font-family:var(--mono);color:#8cc4ff;font-size:11.5px;}
 
   /* ---- Toast ---- */
-  .toast{position:fixed;right:26px;bottom:26px;z-index:90;display:flex;align-items:center;gap:12px;
+  .toast{position:fixed;right:26px;bottom:26px;z-index:95;display:flex;align-items:center;gap:12px;
     background:var(--elev);border:1px solid var(--line2);border-left:3px solid var(--ok);border-radius:var(--r6);
-    padding:14px 18px;min-width:280px;box-shadow:0 18px 50px rgba(0,0,0,.55);
+    padding:14px 18px;min-width:280px;max-width:calc(100vw - 32px);box-shadow:0 18px 50px rgba(0,0,0,.55);
     transform:translateY(20px);opacity:0;transition:transform .28s,opacity .28s;pointer-events:none;}
   .toast.show{transform:translateY(0);opacity:1;}
+  .toast.err{border-left-color:var(--bad);}
+  .toast .ti{font-size:20px;color:var(--ok);font-weight:800;width:22px;text-align:center;}
+  .toast.err .ti{color:var(--bad);}
   .toast .tk{font-weight:800;font-size:14px;}
   .toast .td{font-size:12.5px;color:var(--muted);margin-top:2px;}
   .toast .flow{font-family:var(--mono);font-size:11px;color:var(--soft);margin-top:5px;}
 
   footer{max-width:1240px;margin:0 auto;padding:30px 40px;border-top:1px solid var(--line);
     color:var(--soft);font-size:12.5px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-  footer .mono{font-family:var(--mono);}
 
   @media(max-width:760px){
-    .nav{padding:12px 20px;gap:14px;} .nav .links{display:none;}
-    .shell{padding:0 20px 70px;} .hero h1{font-size:36px;} .hero .content{padding:28px 24px;}
+    .nav{padding:12px 16px;gap:10px;} .nav .links{display:none;}
+    .brand{font-size:15px;gap:9px;} .shapes{width:58px;}
+    .nav .right{gap:8px;} .icon-btn.static{display:none;}
+    .chip .txt-largo{display:none;}
+    .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+    .tile .art .logo{font-size:17px;} .tile .body{padding:11px 11px 13px;}
+    .tile .sub{flex-direction:column;align-items:flex-start;gap:3px;}
+    .buy{padding:10px 6px;font-size:12px;}
+    .precio{flex-wrap:wrap;gap:6px;}
+    .tabs{margin-left:0;}
+    .shell{padding:0 16px 70px;} .hero h1{font-size:36px;} .hero .content{padding:28px 22px;}
+    .hero .art .marks{display:none;}
+    .panel-estado{right:16px;}
+    .portada h2{font-size:28px;padding:0 20px 12px;} .det,.resenas{padding-left:20px;padding-right:20px;}
+    footer{padding:26px 16px;}
+    .toast{right:16px;bottom:16px;}
   }
 </style>
 </head>
@@ -128,47 +279,71 @@
 
 <nav class="nav">
   <div class="brand">
-    <span class="shapes"><span class="tri">△</span><span class="ci">○</span><span class="x">✕</span><span class="sq">▢</span></span>
+    <svg class="shapes" viewBox="0 0 88 18" width="76" height="16" aria-hidden="true" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 2 L16.5 15.5 H1.5 Z" stroke="#0070d1"/>
+      <circle cx="32" cy="9" r="7" stroke="#0070d1"/>
+      <path d="M49 2.5 L62 15.5 M62 2.5 L49 15.5" stroke="#b7c6dd"/>
+      <rect x="72" y="2.5" width="13" height="13" rx="1" stroke="#b7c6dd"/>
+    </svg>
     <span>PlayStation&nbsp;Store</span>
   </div>
   <div class="links">
-    <a class="on" href="#">Juegos</a>
-    <a href="#">Novedades</a>
-    <a href="#">Ofertas</a>
-    <a href="#">Suscripciones</a>
+    <a class="on" data-accion="ir" data-destino="catalogo" data-filtro="todos">Juegos</a>
+    <a data-accion="ir" data-destino="catalogo" data-filtro="ofertas">Ofertas</a>
+    <a data-accion="ir" data-destino="deseos">Lista de deseos</a>
+    <a data-accion="ir" data-destino="biblioteca">Mi biblioteca</a>
   </div>
   <div class="right">
-    <span class="chip">microservicios · gateway :8080</span>
-    <div class="icon-btn" title="Buscar">⌕</div>
-    <div class="icon-btn" title="Tu perfil">🙂</div>
+    <button class="chip" id="chipEstado" data-accion="estado" title="Estado de los microservicios">
+      <span class="dot warn" id="chipDot"></span><span id="chipTxt">…</span><span class="txt-largo">&nbsp;servicios</span>
+    </button>
+    <button class="icon-btn" data-accion="abrir-carrito" title="Carrito" aria-label="Abrir carrito">🛒<span class="badge" id="badge">0</span></button>
+    <div class="icon-btn static" title="Tu perfil">🙂</div>
   </div>
 </nav>
 
+<!-- Estado de los 8 contenedores (gateway pregunta GET /salud a cada uno) -->
+<div class="panel-estado" id="panelEstado">
+  <h4>Estado del sistema</h4>
+  <div class="sub">El gateway consulta <span class="mono">/salud</span> de cada contenedor cada 4 s.</div>
+  <div id="listaEstado"></div>
+  <div class="tip">Probá apagar uno: <code>docker compose stop carrito</code><br>y volvelo a prender: <code>docker compose start carrito</code></div>
+</div>
+
 <div class="shell">
 
-  <!-- Destacado (se llena con el primer juego del catálogo) -->
+  <!-- Destacado: el juego con mayor descuento (catálogo + ofertas) -->
   <section class="hero" id="hero" style="display:none;">
-    <div class="art" id="heroArt"></div>
+    <div class="art" id="heroArt"><div class="marks">△○✕▢</div></div>
     <div class="scrim"></div>
     <div class="content">
-      <div class="kicker">Destacado de la semana</div>
+      <div class="kicker" id="heroKicker">Destacado de la semana</div>
       <h1 id="heroTitle">—</h1>
       <div class="meta" id="heroMeta"></div>
-      <div class="row">
-        <span class="price" id="heroPrice"></span>
-        <button class="btn" id="heroBuy">Agregar al carrito</button>
-        <button class="btn ghost">＋ Lista de deseos</button>
-      </div>
+      <div class="row" id="heroAcciones"></div>
     </div>
   </section>
 
-  <div class="sec-head">
+  <div class="sec-head" id="sec-catalogo">
     <h2>Catálogo</h2>
     <span class="count" id="catCount"></span>
+    <span class="nota" id="catNota"></span>
+    <div class="tabs">
+      <button class="on" data-accion="filtro" data-valor="todos">Todos</button>
+      <button data-accion="filtro" data-valor="ofertas">En oferta</button>
+    </div>
   </div>
-  <div class="grid" id="catalogo"></div>
+  <div class="grid" id="catalogo">
+    <div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div>
+  </div>
 
-  <div class="sec-head">
+  <div class="sec-head" id="sec-deseos">
+    <h2>Lista de deseos</h2>
+    <span class="count" id="desCount"></span>
+  </div>
+  <div class="lib" id="deseos"></div>
+
+  <div class="sec-head" id="sec-biblioteca">
     <h2>Mi biblioteca</h2>
     <span class="count" id="libCount"></span>
   </div>
@@ -178,19 +353,58 @@
 
 <footer>
   <span>PlayStation Store · demo de microservicios — Programación Web · URL</span>
-  <span class="mono">gateway → catalogo :4001 · biblioteca :4002</span>
+  <span class="mono">gateway :8080 → catalogo · biblioteca · ofertas · carrito · pagos · deseos · resenas</span>
 </footer>
 
+<div class="velo" id="velo" data-accion="cerrar-todo"></div>
+
+<!-- Carrito -->
+<aside class="drawer" id="drawer" aria-label="Carrito">
+  <header>
+    <h3 id="carTitulo">Tu carrito</h3>
+    <button class="cerrar" data-accion="cerrar-todo" aria-label="Cerrar">✕</button>
+  </header>
+  <div class="items" id="carItems"></div>
+  <div class="resumen" id="carResumen"></div>
+</aside>
+
+<!-- Detalle del juego + reseñas -->
+<div class="modal" id="modal" data-accion="cerrar-todo">
+  <div class="caja" id="caja">
+    <button class="cerrar" data-accion="cerrar-todo" aria-label="Cerrar">✕</button>
+    <div id="detInfo"></div>
+    <div class="resenas">
+      <div id="detResenas"></div>
+      <form class="form" id="formResena" autocomplete="off">
+        <div class="titulo">Escribí tu reseña</div>
+        <div class="fila2">
+          <input class="campo corto" name="autor" maxlength="30" placeholder="Tu nombre o gamertag">
+          <div class="pick" id="pick">
+            <button type="button" data-accion="estrella" data-n="1" aria-label="1 estrella">★</button>
+            <button type="button" data-accion="estrella" data-n="2" aria-label="2 estrellas">★</button>
+            <button type="button" data-accion="estrella" data-n="3" aria-label="3 estrellas">★</button>
+            <button type="button" data-accion="estrella" data-n="4" aria-label="4 estrellas">★</button>
+            <button type="button" data-accion="estrella" data-n="5" aria-label="5 estrellas">★</button>
+          </div>
+        </div>
+        <textarea class="campo" name="texto" maxlength="300" placeholder="¿Qué te pareció el juego?" required></textarea>
+        <div><button class="btn" type="submit">Publicar reseña</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast">
-  <span style="font-size:20px;">✓</span>
+  <span class="ti" id="toastIco">✓</span>
   <div>
-    <div class="tk">Añadido a tu biblioteca</div>
-    <div class="td" id="toastGame"></div>
-    <div class="flow">gateway → catálogo → biblioteca</div>
+    <div class="tk" id="toastTit"></div>
+    <div class="td" id="toastDet"></div>
+    <div class="flow" id="toastFlujo"></div>
   </div>
 </div>
 
 <script>
+  // ================= Utilidades =================
   // Paletas de "key art" por CSS — una portada distinta por juego, sin imágenes externas (anda offline).
   var ARTE = [
     ['#1b3a6b','#060c1a'], ['#3a1b5b','#0b0618'], ['#6b1b2e','#190509'],
@@ -202,98 +416,415 @@
     return 'radial-gradient(120% 90% at 78% 12%,'+c[0]+' 0%,'+c[1]+' 70%),'
          + 'linear-gradient(150deg,'+c[0]+',' + c[1] + ')';
   }
-  function esc(s){ return String(s).replace(/[&<>"]/g, function(ch){
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]; }); }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(ch){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]; }); }
+  function fmt(n){ return '$' + Number(n).toFixed(2); }
+  function $(id){ return document.getElementById(id); }
+  function ids(lista){ var o = {}; (lista || []).forEach(function(j){ if(j && j.id != null) o[j.id] = true; }); return o; }
+  function estrellas(n){ var r = Math.round(n); return '<span class="st">' + '★★★★★'.slice(0, r) + '</span><span class="st-off">' + '★★★★★'.slice(0, 5 - r) + '</span>'; }
 
-  var owned = {}; // ids que ya están en la biblioteca
-  var CAT = [];   // último catálogo cargado (para saber el título al comprar)
-
-  function tileArt(j){
-    return '<div class="art" style="background:'+arteDe(j.id)+';">'
-         +   '<div class="marks">△ ○ ✕ ▢</div>'
-         +   '<div class="artscrim"></div>'
-         +   '<div class="logo">'+esc(j.titulo)+'</div>'
-         + '</div>';
+  // Todas las llamadas pasan por el gateway (/api/...). Si un servicio está caído,
+  // el gateway responde 503 con { error, servicio } y acá lo convertimos en un Error.
+  async function api(ruta, metodo, body){
+    var r = await fetch(ruta, {
+      method: metodo || 'GET',
+      headers: body ? { 'Content-Type': 'application/json' } : undefined,
+      body: body ? JSON.stringify(body) : undefined
+    });
+    var data = await r.json().catch(function(){ return null; });
+    if(!r.ok){
+      var e = new Error((data && data.error) || ('Error ' + r.status));
+      e.servicio = data && data.servicio;
+      throw e;
+    }
+    return data;
   }
 
-  async function cargarCatalogo(){
-    var cont = document.getElementById('catalogo');
-    cont.innerHTML = Array(6).fill('<div class="skel"></div>').join('');
-    var r = await fetch('/api/catalogo');
-    var juegos = await r.json();
-    CAT = juegos;
-    document.getElementById('catCount').textContent = juegos.length + ' juegos';
+  // ================= Estado de la página =================
+  var S = {
+    juegos: [], biblioteca: [], carrito: { items: [], total: 0 }, deseos: [],
+    err: {},            // error por sección (servicio caído)
+    filtro: 'todos',
+    estado: [],         // salud de los servicios
+    detalle: null,      // { id, resenas, err } del modal abierto
+    compra: null,       // última compra confirmada (se muestra en el carrito)
+    pick: 5,            // estrellas elegidas en el formulario
+    own: {}, cart: {}, wish: {}
+  };
+  function buscar(id){ return S.juegos.find(function(j){ return j.id === id; }); }
+  function caido(servicio){ return S.estado.some(function(s){ return s.servicio === servicio && !s.ok; }); }
 
-    // Hero con el primer juego
-    if(juegos.length){
-      var h = juegos[0];
-      document.getElementById('hero').style.display = 'flex';
-      document.getElementById('heroArt').style.background = arteDe(h.id);
-      document.getElementById('heroTitle').textContent = h.titulo;
-      document.getElementById('heroMeta').innerHTML = '<span class="pill">'+esc(h.genero)+'</span><span class="pill">PS5</span><span class="pill">Un jugador</span>';
-      document.getElementById('heroPrice').textContent = '$'+h.precio;
-      var hb = document.getElementById('heroBuy');
-      hb.onclick = function(){ comprar(h.id); };
+  async function cargar(clave, ruta){
+    try { S[clave] = await api(ruta); S.err[clave] = null; }
+    catch(e){ S.err[clave] = e.message; }
+  }
+  async function cargarTodo(){
+    await Promise.all([
+      cargar('juegos', '/api/catalogo'),
+      cargar('biblioteca', '/api/biblioteca'),
+      cargar('carrito', '/api/carrito'),
+      cargar('deseos', '/api/deseos')
+    ]);
+    render();
+  }
+
+  // ================= Render =================
+  function render(){
+    S.own = ids(S.err.biblioteca ? [] : S.biblioteca);
+    S.cart = ids(S.err.carrito ? [] : S.carrito.items);
+    S.wish = ids(S.err.deseos ? [] : S.deseos);
+    renderHero(); renderCatalogo(); renderDeseos(); renderBiblioteca(); renderCarrito();
+    if(S.detalle) renderDetalleInfo();
+  }
+
+  function aviso(servicio, msg){
+    return '<div class="aviso">⚠ ' + esc(msg || ('El servicio ' + servicio + ' no está disponible'))
+      + '<span class="mono">docker compose start ' + esc(servicio) + '</span></div>';
+  }
+  function precioHTML(j, tam){
+    var cls = 'precio' + (tam ? ' ' + tam : '');
+    if(j.descuento) return '<span class="'+cls+'"><span class="dto">-'+j.descuento+'%</span><s>'+fmt(j.precio)+'</s>'+fmt(j.precioFinal)+'</span>';
+    return '<span class="'+cls+'">'+fmt(j.precio)+'</span>';
+  }
+  function rateHTML(j){
+    if(j.rating == null) return '';
+    return '<span class="rate"><span class="st">★</span> '+j.rating.toFixed(1)+' <span class="n">('+j.resenas+')</span></span>';
+  }
+  function botonCompra(j, cls){
+    if(S.own[j.id])  return '<button class="'+cls+' owned" disabled>En biblioteca ✓</button>';
+    if(S.cart[j.id]) return '<button class="'+cls+' encarrito" data-accion="abrir-carrito">En el carrito · Ver</button>';
+    return '<button class="'+cls+'" data-accion="agregar" data-id="'+j.id+'">Agregar al carrito</button>';
+  }
+  function botonDeseo(j){
+    if(S.own[j.id]) return '';
+    var on = S.wish[j.id];
+    return '<button class="btn ghost'+(on?' on':'')+'" data-accion="deseo" data-id="'+j.id+'">'+(on?'♥ En tu lista':'♡ Lista de deseos')+'</button>';
+  }
+
+  function renderHero(){
+    var hero = $('hero');
+    if(!S.juegos.length || S.err.juegos){ hero.style.display = 'none'; return; }
+    // Destacado: el de mayor descuento que todavía no compraste (si ofertas está caído, el primero).
+    var pendientes = S.juegos.filter(function(j){ return !S.own[j.id]; });
+    var lista = pendientes.length ? pendientes : S.juegos;
+    var h = lista.reduce(function(a, b){ return (b.descuento || 0) > (a.descuento || 0) ? b : a; }, lista[0]);
+    hero.style.display = 'flex';
+    $('heroArt').style.background = arteDe(h.id);
+    $('heroKicker').textContent = h.etiqueta || 'Destacado de la semana';
+    $('heroTitle').textContent = h.titulo;
+    $('heroMeta').innerHTML = '<span class="pill">'+esc(h.genero)+'</span><span class="pill">PS5</span>'
+      + (h.rating != null ? '<span class="pill">★ '+h.rating.toFixed(1)+' · '+h.resenas+' reseñas</span>' : '')
+      + (h.descuento ? '<span class="pill oferta">Ahorrá '+fmt(h.precio - h.precioFinal)+'</span>' : '');
+    $('heroAcciones').innerHTML = precioHTML(h, 'grande') + botonCompra(h, 'btn') + botonDeseo(h)
+      + '<button class="btn ghost" data-accion="detalle" data-id="'+h.id+'">Reseñas</button>';
+  }
+
+  function renderCatalogo(){
+    var cont = $('catalogo');
+    document.querySelectorAll('.tabs button').forEach(function(b){ b.classList.toggle('on', b.dataset.valor === S.filtro); });
+    if(S.err.juegos){ $('catCount').textContent = ''; cont.innerHTML = aviso('catalogo', S.err.juegos); return; }
+    var lista = S.filtro === 'ofertas' ? S.juegos.filter(function(j){ return j.descuento; }) : S.juegos;
+    var nOfertas = S.juegos.filter(function(j){ return j.descuento; }).length;
+    $('catCount').textContent = S.filtro === 'ofertas' ? lista.length + ' en oferta' : lista.length + ' juegos · ' + nOfertas + ' en oferta';
+    if(!lista.length){
+      cont.innerHTML = S.filtro === 'ofertas' && caido('ofertas')
+        ? aviso('ofertas') : '<div class="empty">No hay ofertas activas en este momento.</div>';
+      return;
     }
-
-    cont.innerHTML = juegos.map(function(j){
-      var yo = owned[j.id];
+    cont.innerHTML = lista.map(function(j){
+      var heart = S.own[j.id] ? '' :
+        '<button class="heart'+(S.wish[j.id]?' on':'')+'" data-accion="deseo" data-id="'+j.id+'" title="Lista de deseos">'+(S.wish[j.id]?'♥':'♡')+'</button>';
       return '<div class="tile">'
-        + tileArt(j)
+        + '<div class="art" data-accion="detalle" data-id="'+j.id+'" style="background:'+arteDe(j.id)+';">'
+        +   '<div class="marks">△○✕▢</div>'
+        +   (j.descuento ? '<span class="dto sale">-'+j.descuento+'%</span>' : '')
+        +   heart
+        +   '<div class="artscrim"></div>'
+        +   '<div class="logo">'+esc(j.titulo)+'</div>'
+        + '</div>'
         + '<div class="body">'
-        +   '<div class="ttl">'+esc(j.titulo)+'</div>'
-        +   '<div class="gen">'+esc(j.genero)+'</div>'
-        +   '<div class="foot">'
-        +     '<span class="price">$'+j.precio+'</span>'
-        +     (yo
-              ? '<button class="buy owned">En biblioteca ✓</button>'
-              : '<button class="buy" onclick="comprar('+j.id+')">Comprar</button>')
-        +   '</div>'
+        +   '<div class="ttl" data-accion="detalle" data-id="'+j.id+'">'+esc(j.titulo)+'</div>'
+        +   '<div class="sub"><span class="gen">'+esc(j.genero)+'</span>'+rateHTML(j)+'</div>'
+        +   '<div class="foot">'+precioHTML(j)+botonCompra(j, 'buy')+'</div>'
         + '</div>'
         + '</div>';
     }).join('');
   }
 
-  async function cargarBiblioteca(){
-    var r = await fetch('/api/biblioteca');
-    var mios = await r.json();
-    owned = {};
-    mios.forEach(function(j){ if(j && j.id!=null) owned[j.id] = true; });
-    document.getElementById('libCount').textContent = mios.length + (mios.length===1?' juego':' juegos');
-    var el = document.getElementById('biblioteca');
+  function renderDeseos(){
+    var el = $('deseos');
+    if(S.err.deseos){ $('desCount').textContent = ''; el.innerHTML = aviso('deseos', S.err.deseos); return; }
+    var n = S.deseos.length;
+    $('desCount').textContent = n + (n === 1 ? ' juego' : ' juegos');
+    if(!n){
+      el.innerHTML = '<div class="empty">Tocá ♡ en cualquier juego para guardarlo acá — lo guarda el servicio <b>deseos</b>.</div>';
+      return;
+    }
+    el.innerHTML = S.deseos.map(function(d){
+      var j = buscar(d.id) || d; // precio actual desde catálogo + ofertas
+      var accion = S.own[j.id] ? '<span class="tag ok">COMPRADO</span>'
+        : S.cart[j.id] ? '<span class="tag">EN CARRITO</span>'
+        : '<button class="mini-btn" data-accion="agregar" data-id="'+j.id+'">Agregar</button>';
+      return '<div class="libitem">'
+        + '<div class="mini" style="background:'+arteDe(j.id)+';"></div>'
+        + '<div class="info"><div class="mt">'+esc(j.titulo)+'</div><div class="mg">'+(j.precioFinal != null ? precioHTML(j, 'chico') : esc(j.genero))+'</div></div>'
+        + '<div class="acciones">'+accion+'<button class="cerrar" data-accion="deseo" data-id="'+j.id+'" title="Quitar de la lista">✕</button></div>'
+        + '</div>';
+    }).join('');
+  }
+
+  function renderBiblioteca(){
+    var el = $('biblioteca');
+    if(S.err.biblioteca){ $('libCount').textContent = ''; el.innerHTML = aviso('biblioteca', S.err.biblioteca); return; }
+    var mios = S.biblioteca;
+    $('libCount').textContent = mios.length + (mios.length === 1 ? ' juego' : ' juegos');
     if(!mios.length){
-      el.innerHTML = '<div class="empty" style="grid-column:1/-1;">Todavía no compraste nada. Comprá un juego arriba y mirá cómo aparece acá — el gateway lo guardó en el servicio <b>biblioteca</b>.</div>';
+      el.innerHTML = '<div class="empty">Todavía no compraste nada. Agregá juegos al carrito y pagá: el gateway los guarda en el servicio <b>biblioteca</b>.</div>';
       return;
     }
     el.innerHTML = mios.map(function(j){
       return '<div class="libitem">'
         + '<div class="mini" style="background:'+arteDe(j.id)+';"></div>'
-        + '<div><div class="mt">'+esc(j.titulo)+'</div><div class="mg">'+esc(j.genero)+'</div></div>'
+        + '<div class="info"><div class="mt">'+esc(j.titulo)+'</div><div class="mg">'+esc(j.genero)+'</div></div>'
         + '<span class="owned-tag">INSTALAR</span>'
         + '</div>';
     }).join('');
   }
 
+  function renderCarrito(){
+    var items = S.err.carrito ? [] : (S.carrito.items || []);
+    var badge = $('badge');
+    if(badge.textContent !== String(items.length) && items.length){ badge.classList.remove('pop'); void badge.offsetWidth; badge.classList.add('pop'); }
+    badge.textContent = items.length;
+    badge.style.display = items.length ? 'flex' : 'none';
+    $('carTitulo').textContent = 'Tu carrito' + (items.length ? ' (' + items.length + ')' : '');
+    var cuerpo = $('carItems'), pie = $('carResumen');
+
+    if(S.compra){
+      var o = S.compra.orden, n = S.compra.juegos.length;
+      $('carTitulo').textContent = 'Compra confirmada';
+      cuerpo.innerHTML = '<div class="ok-compra">'
+        + '<div class="check">✓</div><h4>¡Pago aprobado!</h4>'
+        + '<div class="orden">Orden '+esc(o.orden)+'</div>'
+        + '<div class="mg">'+n+(n === 1 ? ' juego' : ' juegos')+' · '+fmt(o.total)+'</div>'
+        + '<ol class="pasos">'
+        +   '<li><span class="n">1</span><span><b>carrito</b> entregó los juegos</span></li>'
+        +   '<li><span class="n">2</span><span><b>pagos</b> aprobó el cobro y generó la orden</span></li>'
+        +   '<li><span class="n">3</span><span><b>biblioteca</b> guardó tus juegos</span></li>'
+        +   '<li><span class="n">4</span><span><b>deseos</b> quitó los que ya compraste</span></li>'
+        + '</ol>'
+        + '<button class="btn full" data-accion="ver-biblioteca">Ver mi biblioteca</button>'
+        + '</div>';
+      pie.innerHTML = '';
+      return;
+    }
+    if(S.err.carrito){ cuerpo.innerHTML = aviso('carrito', S.err.carrito); pie.innerHTML = ''; return; }
+    if(!items.length){
+      cuerpo.innerHTML = '<div class="vacio-car"><div class="ico">🛒</div><b>Tu carrito está vacío</b><span>Agregá juegos desde el catálogo.</span></div>';
+      pie.innerHTML = '';
+      return;
+    }
+    cuerpo.innerHTML = items.map(function(j){
+      return '<div class="citem">'
+        + '<div class="mini" style="background:'+arteDe(j.id)+';"></div>'
+        + '<div class="info"><div class="mt">'+esc(j.titulo)+'</div><div class="mg">'+esc(j.genero)+'</div></div>'
+        + '<div class="der">'+precioHTML(j, 'chico')+'<button class="link" data-accion="quitar" data-id="'+j.id+'">Quitar</button></div>'
+        + '</div>';
+    }).join('');
+    var subtotal = items.reduce(function(s, j){ return s + Math.round(j.precio * 100); }, 0) / 100;
+    var ahorro = Math.round((subtotal - S.carrito.total) * 100) / 100;
+    pie.innerHTML = '<div class="fila"><span>Subtotal</span><span>'+fmt(subtotal)+'</span></div>'
+      + (ahorro > 0 ? '<div class="fila ahorro"><span>Descuentos</span><span>−'+fmt(ahorro)+'</span></div>' : '')
+      + '<div class="fila total"><span>Total</span><span>'+fmt(S.carrito.total)+'</span></div>'
+      + '<button class="btn full" data-accion="pagar">Pagar '+fmt(S.carrito.total)+'</button>'
+      + '<div class="flujo">gateway → carrito → pagos → biblioteca</div>';
+  }
+
+  // ---- Modal de detalle ----
+  function renderDetalleInfo(){
+    var j = buscar(S.detalle.id);
+    if(!j){ $('detInfo').innerHTML = ''; return; }
+    $('detInfo').innerHTML = '<div class="portada" style="background:'+arteDe(j.id)+';"><div class="scrim"></div><h2>'+esc(j.titulo)+'</h2></div>'
+      + '<div class="det">'
+      +   '<div class="meta"><span class="pill">'+esc(j.genero)+'</span><span class="pill">PS5</span>'
+      +     (j.etiqueta ? '<span class="pill oferta">'+esc(j.etiqueta)+'</span>' : '')
+      +     (j.rating != null ? '<span class="rate" style="font-size:14px;">'+estrellas(j.rating)+' '+j.rating.toFixed(1)+' <span class="n">('+j.resenas+' reseñas)</span></span>' : '')
+      +   '</div>'
+      +   '<div class="row">'+precioHTML(j, 'grande')+botonCompra(j, 'btn')+botonDeseo(j)+'</div>'
+      + '</div>';
+  }
+  function renderDetalleResenas(){
+    var d = S.detalle, el = $('detResenas');
+    var titulo = '<h3>Reseñas'+(d.resenas ? ' <span class="count">'+d.resenas.length+'</span>' : '')+'</h3>';
+    if(d.err){ el.innerHTML = titulo + aviso('resenas', d.err); return; }
+    if(!d.resenas){ el.innerHTML = titulo + '<div class="mg" style="padding:14px 0;">Cargando…</div>'; return; }
+    if(!d.resenas.length){ el.innerHTML = titulo + '<div class="mg" style="padding:14px 0;">Todavía no hay reseñas. ¡Escribí la primera!</div>'; return; }
+    el.innerHTML = titulo + d.resenas.map(function(r){
+      return '<div class="resena"><div class="quien"><span>'+esc(r.autor)+'</span><span class="estrellas">'+estrellas(r.estrellas)+'</span></div><p>'+esc(r.texto)+'</p></div>';
+    }).join('');
+  }
+  function pintarPick(){
+    document.querySelectorAll('#pick button').forEach(function(b){ b.classList.toggle('on', Number(b.dataset.n) <= S.pick); });
+  }
+  async function abrirDetalle(id){
+    cerrarTodo();
+    S.detalle = { id: id, resenas: null, err: null };
+    S.pick = 5; pintarPick();
+    $('formResena').reset();
+    renderDetalleInfo(); renderDetalleResenas();
+    $('modal').classList.add('on'); $('velo').classList.add('on');
+    $('modal').scrollTop = 0;
+    await cargarResenas();
+  }
+  async function cargarResenas(){
+    var d = S.detalle;
+    try { d.resenas = await api('/api/resenas/' + d.id); d.err = null; }
+    catch(e){ d.err = e.message; }
+    if(S.detalle === d) renderDetalleResenas();
+  }
+
+  // ---- Estado de servicios ----
+  function renderEstado(){
+    var total = S.estado.length, ok = S.estado.filter(function(s){ return s.ok; }).length;
+    $('chipTxt').textContent = total ? ok + '/' + total : '…';
+    $('chipDot').className = 'dot' + (!total ? ' warn' : ok === total ? '' : ok === 0 ? ' off' : ' warn');
+    $('listaEstado').innerHTML = S.estado.map(function(s){
+      return '<div class="svc"><span class="dot'+(s.ok?'':' off')+'"></span>'
+        + '<div><div class="nom">'+esc(s.servicio)+'</div><div class="url">'+esc(s.url)+'</div></div>'
+        + '<span class="ms'+(s.ok?'':' off')+'">'+(s.ok ? s.ms + ' ms' : 'caído')+'</span></div>';
+    }).join('');
+    var notas = [];
+    if(caido('ofertas')) notas.push('ofertas no disponible: precios sin descuento');
+    if(caido('resenas')) notas.push('reseñas no disponible');
+    $('catNota').textContent = notas.length ? '⚠ ' + notas.join(' · ') : '';
+  }
+  var ultimoCaidos = null;
+  async function revisarEstado(){
+    try { S.estado = await api('/api/estado'); }
+    catch(e){ S.estado = [{ servicio: 'gateway', url: location.host, ok: false, ms: null }]; }
+    renderEstado();
+    // Si algún servicio se cayó o volvió, recargamos los datos de la página.
+    var caidos = S.estado.filter(function(s){ return !s.ok; }).map(function(s){ return s.servicio; }).join(',');
+    if(ultimoCaidos !== null && caidos !== ultimoCaidos) cargarTodo();
+    ultimoCaidos = caidos;
+  }
+
+  // ---- Toast ----
   var toastT;
-  function toast(nombre){
-    var t = document.getElementById('toast');
-    document.getElementById('toastGame').textContent = nombre;
+  function toast(titulo, detalle, flujo, error){
+    var t = $('toast');
+    t.classList.toggle('err', !!error);
+    $('toastIco').textContent = error ? '!' : '✓';
+    $('toastTit').textContent = titulo;
+    $('toastDet').textContent = detalle || '';
+    $('toastFlujo').textContent = flujo || '';
     t.classList.add('show');
     clearTimeout(toastT);
-    toastT = setTimeout(function(){ t.classList.remove('show'); }, 2600);
+    toastT = setTimeout(function(){ t.classList.remove('show'); }, 3200);
+  }
+  function toastErr(e){
+    toast('No se pudo completar', e.message, e.servicio ? 'probá: docker compose start ' + e.servicio : '', true);
   }
 
-  async function comprar(id){
-    var r = await fetch('/api/comprar/' + id, { method:'POST' });
-    if(r.ok){
-      var g = CAT.find(function(x){ return x.id === id; });
-      toast(g ? g.titulo : 'Tu juego');
+  // ================= Acciones =================
+  async function agregar(id){
+    try {
+      S.carrito = await api('/api/carrito/' + id, 'POST'); S.err.carrito = null;
+      render();
+      var j = buscar(id);
+      toast('Agregado al carrito', j ? j.titulo : '', 'gateway → catálogo + ofertas → carrito');
+    } catch(e){ toastErr(e); }
+  }
+  async function quitar(id){
+    try { S.carrito = await api('/api/carrito/' + id, 'DELETE'); render(); }
+    catch(e){ toastErr(e); }
+  }
+  async function deseo(id){
+    var estaba = S.wish[id];
+    try {
+      S.deseos = await api('/api/deseos/' + id, estaba ? 'DELETE' : 'POST'); S.err.deseos = null;
+      render();
+      if(!estaba){ var j = buscar(id); toast('Guardado en tu lista de deseos', j ? j.titulo : '', 'gateway → catálogo → deseos'); }
+    } catch(e){ toastErr(e); }
+  }
+  async function pagar(){
+    try {
+      var r = await api('/api/checkout', 'POST');
+      S.compra = r;
+      toast('Compra aprobada · ' + r.orden.orden, r.juegos.length + (r.juegos.length === 1 ? ' juego' : ' juegos') + ' · ' + fmt(r.orden.total), 'carrito → pagos → biblioteca');
+      await cargarTodo();
+    } catch(e){ toastErr(e); renderCarrito(); }
+  }
+  function abrirCarrito(){
+    $('modal').classList.remove('on'); S.detalle = null;
+    $('panelEstado').classList.remove('on');
+    $('drawer').classList.add('on'); $('velo').classList.add('on');
+  }
+  function cerrarTodo(){
+    $('drawer').classList.remove('on'); $('modal').classList.remove('on'); $('velo').classList.remove('on');
+    S.detalle = null;
+    if(S.compra){ S.compra = null; setTimeout(renderCarrito, 300); }
+  }
+  function ir(destino, filtro){
+    if(filtro){ S.filtro = filtro; renderCatalogo(); }
+    document.querySelectorAll('.nav .links a').forEach(function(a){
+      a.classList.toggle('on', a.dataset.destino === destino && (!filtro || a.dataset.filtro === filtro));
+    });
+    $('sec-' + destino).scrollIntoView();
+  }
+
+  // Un solo listener para todos los botones: cada uno dice qué hace con data-accion.
+  document.addEventListener('click', function(e){
+    var panel = $('panelEstado');
+    if(panel.classList.contains('on') && !e.target.closest('#panelEstado') && !e.target.closest('#chipEstado')) panel.classList.remove('on');
+
+    var b = e.target.closest('[data-accion]');
+    if(!b) return;
+    // Clic dentro de la caja del modal: no cerrar (solo cierra el fondo o la ✕).
+    if(b.id === 'modal' && e.target.closest('#caja')) return;
+    var id = Number(b.dataset.id);
+    var conBoton = function(p){ b.disabled = true; p.finally(function(){ b.disabled = false; }); };
+
+    switch(b.dataset.accion){
+      case 'agregar':        e.stopPropagation(); conBoton(agregar(id)); break;
+      case 'quitar':         conBoton(quitar(id)); break;
+      case 'deseo':          e.stopPropagation(); conBoton(deseo(id)); break;
+      case 'pagar':          b.textContent = 'Procesando pago…'; conBoton(pagar()); break;
+      case 'abrir-carrito':  abrirCarrito(); break;
+      case 'cerrar-todo':    cerrarTodo(); break;
+      case 'ver-biblioteca': cerrarTodo(); ir('biblioteca'); break;
+      case 'detalle':        abrirDetalle(id); break;
+      case 'filtro':         S.filtro = b.dataset.valor; renderCatalogo(); break;
+      case 'ir':             ir(b.dataset.destino, b.dataset.filtro); break;
+      case 'estado':         panel.classList.toggle('on'); break;
+      case 'estrella':       S.pick = Number(b.dataset.n); pintarPick(); break;
     }
-    await cargarBiblioteca();
-    await cargarCatalogo();
-  }
+  });
 
-  cargarBiblioteca().then(cargarCatalogo);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ cerrarTodo(); $('panelEstado').classList.remove('on'); }
+  });
+
+  $('formResena').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var f = e.target, btn = f.querySelector('button[type=submit]'), d = S.detalle;
+    if(!d) return;
+    btn.disabled = true;
+    try {
+      await api('/api/resenas/' + d.id, 'POST', { autor: f.autor.value, estrellas: S.pick, texto: f.texto.value });
+      f.texto.value = '';
+      toast('¡Gracias por tu reseña!', (buscar(d.id) || {}).titulo, 'gateway → resenas');
+      await cargarResenas();
+      await cargar('juegos', '/api/catalogo'); // actualiza el promedio de estrellas
+      render();
+    } catch(err){ toastErr(err); }
+    finally { btn.disabled = false; }
+  });
+
+  // ================= Arranque =================
+  revisarEstado();
+  setInterval(revisarEstado, 4000);
+  cargarTodo();
 </script>
 </body>
 </html>

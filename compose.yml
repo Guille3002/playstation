@@ -1,13 +1,14 @@
 # compose.yml — SOLUCIÓN del lab (PlayStation Store).
-# Levanta los 3 microservicios con un solo comando: docker compose up --build
+# Levanta los 8 contenedores con un solo comando: docker compose up --build
 #
 # Claves que se enseñan acá:
 #  - services: cada microservicio es un service.
 #  - build: la carpeta donde está su Dockerfile.
 #  - ports: SOLO el gateway publica un puerto al exterior (host:contenedor).
 #  - environment: le pasamos al gateway las URLs de los otros servicios.
-#  - depends_on: el gateway arranca después de catalogo y biblioteca.
-# Los servicios se encuentran entre sí por su NOMBRE (catalogo, biblioteca):
+#  - depends_on + service_healthy: el gateway arranca recién cuando los demás
+#    pasan su HEALTHCHECK (definido en cada Dockerfile, consulta GET /salud).
+# Los servicios se encuentran entre sí por su NOMBRE (catalogo, carrito, ...):
 # Docker crea una red interna por defecto y resuelve esos nombres solo.
 
 services:
@@ -18,12 +19,44 @@ services:
     environment:
       - CATALOGO_URL=http://catalogo:4001
       - BIBLIOTECA_URL=http://biblioteca:4002
+      - OFERTAS_URL=http://ofertas:4003
+      - CARRITO_URL=http://carrito:4004
+      - PAGOS_URL=http://pagos:4005
+      - DESEOS_URL=http://deseos:4006
+      - RESENAS_URL=http://resenas:4007
     depends_on:
-      - catalogo
-      - biblioteca
+      catalogo:
+        condition: service_healthy
+      biblioteca:
+        condition: service_healthy
+      ofertas:
+        condition: service_healthy
+      carrito:
+        condition: service_healthy
+      pagos:
+        condition: service_healthy
+      deseos:
+        condition: service_healthy
+      resenas:
+        condition: service_healthy
 
-  catalogo:
+  catalogo:       # :4001 juegos a la venta
     build: ./catalogo
 
-  biblioteca:
+  biblioteca:     # :4002 juegos comprados
     build: ./biblioteca
+
+  ofertas:        # :4003 descuentos por juego
+    build: ./ofertas
+
+  carrito:        # :4004 juegos por comprar
+    build: ./carrito
+
+  pagos:          # :4005 cobro simulado + número de orden
+    build: ./pagos
+
+  deseos:         # :4006 lista de deseos
+    build: ./deseos
+
+  resenas:        # :4007 estrellas y comentarios
+    build: ./resenas
